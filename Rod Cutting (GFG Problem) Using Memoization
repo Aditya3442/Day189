@@ -1,0 +1,27 @@
+class Solution {
+    public static int recur (int index , int target , int[] price , int[][] dp) {
+        if(target <= 0)
+          return 0;
+        if (index == 0) {
+            return target * price[index];
+        }
+        
+        if(dp[index][target] != -1)
+           return dp[index][target];
+        
+        int notTake = recur(index - 1 , target , price , dp);
+        int take = 0;
+        if(target >= index + 1)
+          take = price[index] + recur(index , target - index - 1 , price , dp);
+          
+        return dp[index][target] = Math.max(notTake , take);
+    }
+    public int cutRod(int[] price) {
+        // code here
+        int n = price.length;
+        int dp[][] = new int[n][n + 1];
+        for(int arr[] : dp)
+           Arrays.fill(arr , -1);
+        return recur(n - 1 , n , price , dp);
+    }
+}
