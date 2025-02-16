@@ -1,0 +1,30 @@
+class Solution {
+    public static int recur (int index , int[] val , int[] wt , int capacity , int[][] dp) {
+        if (index == 0) {
+            if(capacity >= wt[index]) {
+                int x = capacity / wt[index];
+                return x * val[index];
+            }
+            else
+                return 0;
+        }
+        
+        if(dp[index][capacity] != -1)
+           return dp[index][capacity];
+        
+        int notTake = recur(index - 1 , val , wt , capacity , dp);
+        int take = 0;
+        if(capacity >= wt[index])
+           take = val[index] + recur(index , val , wt , capacity - wt[index] , dp);
+           
+        return dp[index][capacity] = Math.max(notTake , take);
+    }
+    static int knapSack(int val[], int wt[], int capacity) {
+        // code here
+        int n = wt.length;
+        int dp[][] = new int[n][capacity + 1];
+        for(int arr[] : dp)
+           Arrays.fill(arr , -1);
+        return recur(n - 1 , val , wt , capacity , dp);
+    }
+}
