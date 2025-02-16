@@ -1,0 +1,40 @@
+class Solution {
+    public boolean recur(int i , int n , int[] arr , boolean[] used) {
+        if(i == arr.length)
+           return true;
+        if(arr[i] != -1)
+           return recur(i + 1 , n , arr , used);
+        for (int num = n; num > 0; num--) {
+            if(used[num])
+              continue;
+            used[num] = true;
+            arr[i] = num;
+            if (num == 1) {
+                if (recur(i + 1 , n , arr , used))
+                   return true;
+            }
+            else {
+                int j = i + arr[i];
+                if (j < arr.length && arr[j] == -1) {
+                    arr[j] = num;
+                    if (recur(i + 1, n , arr , used)){
+                        return true;
+                    }
+                    arr[j] = -1;
+                }                 
+            }
+            used[num] = false;
+            arr[i] = -1;
+        }
+        return false;
+    }
+    public int[] constructDistancedSequence(int n) {
+        int arr[] = new int[n * 2 - 1];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = -1;
+        }
+        boolean used[] = new boolean[n + 1];
+        recur(0 , n , arr , used);
+        return arr;
+    }
+}
