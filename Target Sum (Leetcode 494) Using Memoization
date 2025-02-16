@@ -1,0 +1,27 @@
+public class Solution {
+    int y;
+    public int recur(int index , int sum , int target , int[] nums , int[][] dp) {
+        if(index == nums.length) {
+            if(sum == target)
+              return 1;
+            else
+              return 0;
+        }
+        if(dp[index][sum + y] != Integer.MIN_VALUE)
+           return dp[index][sum + y];
+
+        int minus = recur(index + 1 , sum - nums[index] , target , nums , dp);
+        int plus = recur(index + 1 , sum + nums[index] ,  target , nums , dp);
+
+        return dp[index][sum + y] = minus + plus;
+    }
+    public int findTargetSumWays(int[] nums, int target) {
+        int n = nums.length;
+        for(int num : nums)
+           y += num;
+        int dp[][] = new int[n][2 * y + 1];
+        for(int arr[] : dp)
+           Arrays.fill(arr , Integer.MIN_VALUE);
+        return recur(0 , 0 , target , nums , dp);
+    }
+}
